@@ -451,4 +451,108 @@
         checkboxes.forEach((checkbox) => {
             values.push(checkbox.value);
         });
-        return values.length
+        return values.length > 0 ? values.join(", ") : "<span class='empty-field'>None selected</span>";
+    }
+
+    // Helper to format text areas (handle empty states)
+    function formatText(id) {
+        const val = document.getElementById(id).value.trim();
+        return val ? val : "<span class='empty-field'>No notes entered.</span>";
+    }
+
+    function generatePlan() {
+        // 1. Gather Data
+        const context = formatText('input-context');
+        const objectives = formatText('input-objectives');
+        const safety = formatText('input-safety');
+        const activity = formatText('input-activity');
+        
+        const knowledgeFocus = getCheckedValues('knowledge');
+        const skillsFocus = getCheckedValues('skills');
+
+        // 2. Build HTML Structure
+        let html = `
+            <div class="out-section">
+                <div class="out-heading">1. Learners & Context</div>
+                <div class="out-body">${context}</div>
+            </div>
+
+            <div class="out-section">
+                <div class="out-heading">2. Focus Areas</div>
+                <div class="out-subheading">Knowledge & Understanding</div>
+                <div class="out-body">${knowledgeFocus}</div>
+                <div class="out-subheading">Skills & Disposition</div>
+                <div class="out-body">${skillsFocus}</div>
+            </div>
+
+            <div class="out-section">
+                <div class="out-heading">3. Learning Objectives</div>
+                <div class="out-body">${objectives}</div>
+            </div>
+
+            <div class="out-section">
+                <div class="out-heading">4. Safe Space & Safeguarding</div>
+                <div class="out-body">${safety}</div>
+            </div>
+
+            <div class="out-section">
+                <div class="out-heading">5. Activity Idea</div>
+                <div class="out-body">${activity}</div>
+            </div>
+            
+            <div style="margin-top: 3rem; border-top: 1px solid #eee; pt: 1rem; font-size: 0.7rem; color: #999;">
+                Generated via Grenfell CPD Workbook
+            </div>
+        `;
+
+        // 3. Inject and Switch Views
+        document.getElementById('printable-content').innerHTML = html;
+        document.getElementById('form-view').style.display = 'none';
+        document.getElementById('output-view').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function editPlan() {
+        document.getElementById('output-view').style.display = 'none';
+        document.getElementById('form-view').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function copyPlan() {
+        const node = document.getElementById('printable-content');
+        const status = document.getElementById('status-msg');
+        
+        // 1. Create a selection range for the content
+        const range = document.createRange();
+        range.selectNode(node);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+
+        // 2. Try using the modern API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+             navigator.clipboard.writeText(node.innerText).then(() => {
+                status.innerText = "Copied to clipboard!";
+                status.style.opacity = 1;
+                setTimeout(() => { status.style.opacity = 0; window.getSelection().removeAllRanges(); }, 3000);
+            }).catch(err => {
+                // If API fails (common in iframes), leave the text selected and ask user to Ctrl+C
+                status.innerText = "Press Ctrl+C to copy selected text.";
+                status.style.opacity = 1;
+            });
+        } else {
+            // Fallback for older browsers or restricted iframes
+            try {
+                document.execCommand('copy');
+                status.innerText = "Copied to clipboard!";
+                status.style.opacity = 1;
+                setTimeout(() => { status.style.opacity = 0; window.getSelection().removeAllRanges(); }, 3000);
+            } catch (err) {
+                 status.innerText = "Press Ctrl+C to copy selected text.";
+                 status.style.opacity = 1;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
