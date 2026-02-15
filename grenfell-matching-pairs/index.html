@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grenfell Tower Curriculum Matching Activity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF8F5;
+            --bg-card: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #4A4A4A;
+            --text-muted: #7A7A7A;
+            --border: #E0DCD6;
+            --border-light: #EDEBE7;
+            --accent-fact: #8B6914;
+            --accent-fact-bg: #FDF6E3;
+            --accent-curriculum: #2B5A83;
+            --accent-curriculum-bg: #EFF6FF;
+            --correct-green: #2D6A4F;
+            --correct-green-bg: #F0FFF4;
+            --correct-green-border: #2D6A4F;
+            --incorrect-red: #9B2C2C;
+            --incorrect-red-bg: #FFF5F5;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 6px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: contain;
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .activity-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        header h1 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.55;
+        }
+
+        /* ─── GAME CONTAINER ─── */
+        .game-container {
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+            min-height: 550px;
+        }
+
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .column-header {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.25rem;
+            flex: 0 0 auto;
+            padding: 0.5rem 0;
+        }
+
+        #left-col .column-header {
+            color: var(--accent-fact);
+        }
+
+        #right-col .column-header {
+            color: var(--accent-curriculum);
+        }
+
+        /* ─── SHARED CARD STYLE ─── */
+        .card-style {
+            padding: 1rem 1.15rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.84rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            transition: all 0.25s ease;
+        }
+
+        /* ─── DRAGGABLE ITEMS (Left) ─── */
+        .draggable-item {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-fact);
+            cursor: grab;
+            box-shadow: var(--shadow-sm);
+            user-select: none;
+            position: relative;
+        }
+
+        .draggable-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-fact);
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        .draggable-item:hover:not(.matched) {
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-fact);
+            background: var(--accent-fact-bg);
+        }
+
+        .draggable-item:active:not(.matched) {
+            cursor: grabbing;
+            transform: scale(0.99);
+            box-shadow: var(--shadow-md);
+        }
+
+        .draggable-item.matched {
+            opacity: 0.45;
+            cursor: default;
+            background-color: var(--border-light);
+            border-color: var(--border);
+            text-decoration: line-through;
+            text-decoration-color: var(--text-muted);
+        }
+
+        .draggable-item.matched::before {
+            background: var(--border);
+        }
+
+        /* ─── DROP ZONES (Right) ─── */
+        .drop-zone {
+            background: var(--bg-card);
+            border: 2px dashed var(--accent-curriculum);
+            position: relative;
+        }
+
+        .drop-zone::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-curriculum);
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        /* ─── CORRECT STATE ─── */
+        .drop-zone.correct {
+            background-color: var(--correct-green-bg);
+            border-color: var(--correct-green-border);
+            border-style: solid;
+            color: #1A1A1A;
+        }
+
+        .drop-zone.correct::before {
+            background: var(--correct-green);
+        }
+
+        .drop-zone.correct::after {
+            content: '✓ Match';
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            background: var(--correct-green);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+
+        /* ─── INCORRECT STATE ─── */
+        .drop-zone.incorrect {
+            animation: shake 0.45s ease;
+            background-color: var(--incorrect-red-bg);
+            border-color: var(--incorrect-red);
+        }
+
+        .drop-zone.incorrect::before {
+            background: var(--incorrect-red);
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-4px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 768px) {
+            body { padding: 1.25rem 1rem 3rem; }
+            header { padding: 1.5rem 0.5rem 1.25rem; }
+
+            .game-container {
+                flex-direction: column;
+                min-height: auto;
+                gap: 1.5rem;
+            }
+            .card-style {
+                flex: none;
+                min-height: 72px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="activity-label">Interactive Learning Activity</div>
+        <h1>Matching Pairs: Grenfell Tower &amp; Curriculum</h1>
+        <p class="subtitle">Drag each Grenfell fact (left) to the curriculum requirement (right) that it might help to address.</p>
+    </header>
+
+    <div class="game-container">
+        
+        <div class="column" id="left-col">
+            <div class="column-header">Grenfell Facts</div>
+            
+            <div class="draggable-item card-style" draggable="true" id="drag1" data-match="target-dt">
+                The flammability testing of the cladding materials which failed to predict the rapid spread of the fire.
+            </div>
+
+            <div class="draggable-item card-style" draggable="true" id="drag2" data-match="target-money">
+                The repeated concerns raised by the Grenfell Action Group regarding fire safety that were overlooked by the Tenant Management Organisation.
+            </div>
+
+            <div class="draggable-item card-style" draggable="true" id="drag3" data-match="target-history">
+                Locating the disaster within the historical context of North Kensington and social housing development.
+            </div>
+
+            <div class="draggable-item card-style" draggable="true" id="drag4" data-match="target-law">
+                The breach of the residents' right to life and safe housing.
+            </div>
+
+            <div class="draggable-item card-style" draggable="true" id="drag5" data-match="target-community">
+                The community-led response and the formation of support hubs by local residents immediately after the disaster.
+            </div>
+        </div>
+
+        <div class="column" id="right-col">
+            <div class="column-header">Curriculum Requirements</div>
+
+            <div class="drop-zone card-style" id="target-dt">
+                Investigate and analyse the work of past and present professionals and companies in the area of design and technology in order to help inform their own ideas. (GCSE Design and Technology)
+            </div>
+
+            <div class="drop-zone card-style" id="target-money">
+                Income and expenditure, credit and debt, insurance, savings and pensions, financial products and services, and how public money is raised and spent. (KS4 Citizenship)
+            </div>
+
+            <div class="drop-zone card-style" id="target-law">
+                The legal system in the UK, different sources of law and how the law helps society deal with complex problems. (KS4 Citizenship)
+            </div>
+
+            <div class="drop-zone card-style" id="target-history">
+                A study of an aspect of history or a site dating from a period beyond 1066 that is significant in the locality. (KS2 History)
+            </div>
+
+            <div class="drop-zone card-style" id="target-community">
+                The roles played by public institutions and voluntary groups in society, and the ways in which citizens work together to improve their communities. (KS3 Citizenship)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- RANDOMIZER LOGIC ---
+        function shuffleElements(containerId, itemClass) {
+            const container = document.getElementById(containerId);
+            const header = container.querySelector('.column-header');
+            const items = Array.from(container.querySelectorAll('.' + itemClass));
+
+            for (let i = items.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [items[i], items[j]] = [items[j], items[i]];
+            }
+
+            items.forEach(item => container.appendChild(item));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            shuffleElements('left-col', 'draggable-item');
+            shuffleElements('right-col', 'drop-zone');
+        });
+
+        // --- GAME LOGIC ---
+        const draggables = document.querySelectorAll('.draggable-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', dragStart);
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', dragOver);
+            zone.addEventListener('drop', drop);
+            zone.addEventListener('dragenter', dragEnter);
+            zone.addEventListener('dragleave', dragLeave);
+        });
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.dataTransfer.setData('match-id', e.target.getAttribute('data-match'));
+            e.dataTransfer.effectAllowed = "move";
+        }
+
+        function dragOver(e) { e.preventDefault(); }
+
+        function dragEnter(e) {
+            e.preventDefault();
+            const zone = e.target.closest('.drop-zone');
+            if(zone && !zone.classList.contains('correct')) {
+                zone.style.backgroundColor = "#EFF6FF";
+            }
+        }
+
+        function dragLeave(e) {
+            const zone = e.target.closest('.drop-zone');
+            if(zone && !zone.classList.contains('correct') && 
+               !zone.classList.contains('incorrect')) {
+                zone.style.backgroundColor = "";
+            }
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.drop-zone');
+            
+            if (!dropZone || dropZone.classList.contains('correct')) return;
+
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const requiredMatch = e.dataTransfer.getData('match-id');
+            const draggedElement = document.getElementById(draggedId);
+
+            if (dropZone.id === requiredMatch) {
+                handleCorrect(dropZone, draggedElement);
+            } else {
+                handleIncorrect(dropZone);
+            }
+        }
+
+        function handleCorrect(zone, draggedItem) {
+            zone.classList.add('correct');
+            zone.style.backgroundColor = "";
+            
+            draggedItem.classList.add('matched');
+            draggedItem.setAttribute('draggable', 'false');
+        }
+
+        function handleIncorrect(zone) {
+            zone.classList.add('incorrect');
+            setTimeout(() => {
+                zone.classList.remove('incorrect');
+                zone.style.backgroundColor = "";
+            }, 600);
+        }
+    </script>
+</body>
+</html>
