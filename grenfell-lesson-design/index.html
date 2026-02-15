@@ -15,13 +15,8 @@
             --border: #E0DCD6;
             --border-light: #EDEBE7;
             --accent-before: #8B6914;
-            --accent-before-bg: #FDF6E3;
-            --accent-during: #9B2C2C;
-            --accent-during-bg: #FFF5F5;
             --accent-after: #2B5A83;
-            --accent-after-bg: #EFF6FF;
             --green: #2D6A4F;
-            --green-bg: #F0FFF4;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
             --radius: 6px;
@@ -46,7 +41,7 @@
         /* ─── HEADER ─── */
         header {
             text-align: center;
-            padding: 2.5rem 1rem 2rem;
+            padding: 1rem 1rem 2rem;
             margin-bottom: 2rem;
             border-bottom: 1px solid var(--border);
         }
@@ -102,17 +97,7 @@
             background: var(--border);
         }
 
-        .header-intro {
-            margin-top: 1.25rem;
-            font-size: 0.84rem;
-            color: var(--text-secondary);
-            max-width: 580px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        /* ─── SECTION CARDS ─── */
+        /* ─── FORM & SECTIONS ─── */
         .section-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -121,10 +106,6 @@
             padding: 1.75rem;
             margin-bottom: 1.5rem;
             transition: box-shadow 0.25s;
-        }
-
-        .section-card:hover {
-            box-shadow: var(--shadow-md);
         }
 
         .section-header {
@@ -149,7 +130,6 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--text-muted);
-            white-space: nowrap;
         }
 
         /* ─── PROMPT BOX ─── */
@@ -166,7 +146,6 @@
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 0.35rem;
-            line-height: 1.45;
         }
 
         .guidance-note {
@@ -174,12 +153,6 @@
             color: var(--text-muted);
             font-style: italic;
             margin-bottom: 0.75rem;
-            line-height: 1.55;
-        }
-
-        .guidance-note strong {
-            color: var(--text-secondary);
-            font-style: normal;
         }
 
         /* ─── CHECKLIST ─── */
@@ -193,10 +166,8 @@
             margin-bottom: 0.5rem;
             margin-top: 1.25rem;
         }
-
-        .checklist-group-title:first-of-type {
-            margin-top: 0.5rem;
-        }
+        
+        .checklist-group-title:first-of-type { margin-top: 0.5rem; }
 
         .checklist-container {
             display: grid;
@@ -214,20 +185,10 @@
             padding: 0.4rem 0.5rem;
             border-radius: 4px;
             transition: background 0.15s;
-            line-height: 1.4;
         }
 
-        .checkbox-label:hover {
-            background-color: var(--border-light);
-        }
-
-        .checkbox-label input {
-            margin-right: 0.55rem;
-            accent-color: var(--accent-after);
-            transform: scale(1.15);
-            flex-shrink: 0;
-            cursor: pointer;
-        }
+        .checkbox-label:hover { background-color: var(--border-light); }
+        .checkbox-label input { margin-right: 0.55rem; accent-color: var(--accent-after); transform: scale(1.15); }
 
         /* ─── TEXTAREA ─── */
         textarea {
@@ -242,19 +203,12 @@
             min-height: 95px;
             resize: vertical;
             background: var(--bg-card);
-            transition: border-color 0.2s;
         }
 
         textarea:focus {
             outline: none;
             border-color: var(--accent-after);
             box-shadow: 0 0 0 3px rgba(43,90,131,0.08);
-        }
-
-        textarea::placeholder {
-            color: var(--text-muted);
-            font-style: italic;
-            font-size: 0.82rem;
         }
 
         /* ─── ACTIONS ─── */
@@ -264,15 +218,15 @@
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
         }
 
         .btn {
             border: none;
-            padding: 0.6rem 1.4rem;
+            padding: 0.7rem 1.6rem;
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 0.02em;
             border-radius: 100px;
@@ -283,78 +237,98 @@
             gap: 0.4rem;
         }
 
-        .btn-primary {
-            background-color: var(--accent-after);
-            color: white;
-        }
-        .btn-primary:hover { background-color: #1F4A6E; }
+        .btn-primary { background-color: var(--accent-after); color: white; }
+        .btn-primary:hover { background-color: #1F4A6E; transform: translateY(-1px); }
 
-        .btn-secondary {
-            background-color: var(--border-light);
-            color: var(--text-secondary);
+        .btn-secondary { background-color: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background-color: var(--border-light); color: var(--text-primary); }
+
+        /* ─── PREVIEW / OUTPUT AREA ─── */
+        #output-view {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease;
+        }
+
+        .output-document {
+            background: white;
+            padding: 2.5rem;
             border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
         }
-        .btn-secondary:hover { background-color: var(--border); color: var(--text-primary); }
 
-        /* ─── TOAST ─── */
-        #toast {
-            visibility: hidden;
-            min-width: 220px;
-            background-color: var(--green);
-            color: #fff;
-            text-align: center;
-            border-radius: 100px;
-            padding: 0.7rem 1.5rem;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 2rem;
-            transform: translateX(-50%);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
+        .out-section { margin-bottom: 2rem; }
+        .out-heading {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.1rem;
             font-weight: 700;
-            box-shadow: var(--shadow-md);
+            color: var(--accent-after);
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.8rem;
         }
-
-        #toast.show {
-            visibility: visible;
-            animation: fadein 0.4s, fadeout 0.4s 2.5s;
-        }
-
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 2rem; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 2rem; opacity: 1; } to { bottom: 0; opacity: 0; } }
-
-        /* ─── FOOTER ─── */
-        footer {
-            text-align: center;
-            font-size: 0.72rem;
+        .out-subheading {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             color: var(--text-muted);
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
+            margin-top: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        .out-body {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            white-space: pre-wrap; /* Preserves line breaks */
+        }
+        .empty-field { color: var(--text-muted); font-style: italic; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ─── STATUS MESSAGE ─── */
+        #status-msg {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--green);
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        /* ─── PRINT ─── */
+        /* ─── PRINT STYLES ─── */
         @media print {
-            .btn, #toast { display: none; }
-            body { background: white; padding: 1rem; }
-            .section-card { border: 1px solid #ccc; box-shadow: none; page-break-inside: avoid; }
-            textarea { border: 1px solid #ccc; }
+            body { background: white; padding: 0; }
+            .container { max-width: 100%; width: 100%; }
+            
+            /* Hide the form input view */
+            #form-view { display: none !important; }
+            
+            /* Force the output view to be visible, even if user didn't click generate */
+            #output-view { display: block !important; }
+            
+            /* Hide buttons and footer */
+            .actions, footer, header { display: none !important; }
+            
+            .output-document {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
         }
-
-        /* ─── RESPONSIVE ─── */
+        
         @media (max-width: 600px) {
-            body { padding: 1.25rem 1rem 3rem; }
-            header { padding: 1.5rem 0.5rem 1.25rem; }
-            .section-card { padding: 1.25rem; }
             .checklist-container { grid-template-columns: 1fr; }
-            .meta-bar { gap: 0.75rem; }
+            .output-document { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    
     <header>
         <div class="activity-label">CPD Workbook · Interactive</div>
         <h1>Design Your Learning Experience</h1>
@@ -362,99 +336,106 @@
         <div class="meta-bar">
             <span>20 minutes</span>
             <span>5 sections</span>
-            <span>Copy or print output</span>
+            <span>Generate & Export Plan</span>
         </div>
-        <p class="header-intro">
-            Work through each section to build an initial plan for your lesson or scheme of work. Select your focus areas, draft your thinking, and export the result at the end. This is a private working document — your notes are not submitted or stored.
-        </p>
     </header>
 
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">1. Learners and Context</div>
-            <span class="section-time">4 mins</span>
-        </div>
-        <div class="prompt-box">
-            <div class="prompt-text">Who are your learners and what is their starting point?</div>
-            <div class="guidance-note">Consider: age and key stage; subject context; prior knowledge of Grenfell or related topics (housing, regulation, community); potential personal connections to the fire, to tower blocks, or to housing insecurity; any known sensitivities or safeguarding considerations.</div>
-            <textarea id="input-context" placeholder="e.g., Year 10 Citizenship. Mixed-ability group. Some students live in social housing. One family may have a connection to the Grenfell community — check with pastoral lead before the lesson…"></textarea>
-        </div>
-    </div>
-
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">2. Focus Areas</div>
-            <span class="section-time">3 mins</span>
-        </div>
-        <div class="prompt-box">
-            <div class="prompt-text">Which aspects of the Grenfell story will you prioritise?</div>
-            <div class="guidance-note">Select all that apply. You do not need to cover everything — depth on a few themes is more effective than breadth across all of them.</div>
-        </div>
-
-        <div class="checklist-group-title">Knowledge and Understanding</div>
-        <div class="checklist-container">
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Life before the disaster"> Life before the disaster</label>
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="The human impact"> The human impact</label>
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Community solidarity"> Community solidarity</label>
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Facts and causes"> Facts and causes</label>
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Unheeded warnings"> Unheeded warnings</label>
-            <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Ongoing struggle for justice"> Ongoing struggle for justice</label>
-        </div>
-
-        <div class="checklist-group-title">Skills and Disposition</div>
-        <div class="checklist-container">
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Decision making"> Decision making</label>
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Professional ethics"> Professional ethics</label>
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Empathy and emotional intelligence"> Empathy and emotional intelligence</label>
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Active listening"> Active listening</label>
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Community action"> Community action</label>
-            <label class="checkbox-label"><input type="checkbox" name="skills" value="Critical media literacy"> Critical media literacy</label>
-        </div>
-    </div>
-
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">3. Learning Objectives</div>
-            <span class="section-time">4 mins</span>
-        </div>
-        <div class="prompt-box">
-            <div class="prompt-text">Draft objectives across three domains: Knowledge, Skills, and Values.</div>
-            <div class="guidance-note">
-                <strong>Knowledge:</strong> What facts, contexts or relationships must learners understand?<br>
-                <strong>Skills:</strong> What will they be able to do — e.g., analyse, evaluate, compare, argue?<br>
-                <strong>Values:</strong> What dispositions should the learning develop — e.g., empathy, a sense of justice, respect for affected communities?
+    <div id="form-view">
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">1. Learners and Context</div>
+                <span class="section-time">4 mins</span>
             </div>
-            <textarea id="input-objectives" placeholder="e.g., Knowledge: Understand how deregulation and cost-cutting contributed to the conditions for the fire. Skills: Evaluate the reliability of media narratives by comparing early reporting with Inquiry findings. Values: Develop a sense of civic responsibility and respect for affected communities…"></textarea>
+            <div class="prompt-box">
+                <div class="prompt-text">Who are your learners and what is their starting point?</div>
+                <div class="guidance-note">Consider: age and key stage; subject context; prior knowledge; personal connections; sensitivities.</div>
+                <textarea id="input-context" placeholder="e.g., Year 10 Citizenship. Mixed-ability group..."></textarea>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">2. Focus Areas</div>
+                <span class="section-time">3 mins</span>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-text">Which aspects of the Grenfell story will you prioritise?</div>
+            </div>
+
+            <div class="checklist-group-title">Knowledge and Understanding</div>
+            <div class="checklist-container">
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Life before the disaster"> Life before the disaster</label>
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="The human impact"> The human impact</label>
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Community solidarity"> Community solidarity</label>
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Facts and causes"> Facts and causes</label>
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Unheeded warnings"> Unheeded warnings</label>
+                <label class="checkbox-label"><input type="checkbox" name="knowledge" value="Ongoing struggle for justice"> Ongoing struggle for justice</label>
+            </div>
+
+            <div class="checklist-group-title">Skills and Disposition</div>
+            <div class="checklist-container">
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Decision making"> Decision making</label>
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Professional ethics"> Professional ethics</label>
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Empathy and emotional intelligence"> Empathy and emotional intelligence</label>
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Active listening"> Active listening</label>
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Community action"> Community action</label>
+                <label class="checkbox-label"><input type="checkbox" name="skills" value="Critical media literacy"> Critical media literacy</label>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">3. Learning Objectives</div>
+                <span class="section-time">4 mins</span>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-text">Draft objectives across Knowledge, Skills, and Values.</div>
+                <textarea id="input-objectives" placeholder="e.g., Knowledge: Understand deregulation..."></textarea>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">4. Creating a Safe Space</div>
+                <span class="section-time">4 mins</span>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-text">How will you manage the sensitivity of this material?</div>
+                <textarea id="input-safety" placeholder="e.g., Establish ground rules..."></textarea>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-title">5. Activity Idea</div>
+                <span class="section-time">5 mins</span>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-text">Draft one core activity or task.</div>
+                <textarea id="input-activity" placeholder="e.g., Students examine a timeline..."></textarea>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="generatePlan()">Finish & Preview Plan</button>
         </div>
     </div>
 
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">4. Creating a Safe Space</div>
-            <span class="section-time">4 mins</span>
+    <div id="output-view">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <h2>Your Lesson Plan</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Review your plan below. You can now print, save as PDF, or copy the text.</p>
         </div>
-        <div class="prompt-box">
-            <div class="prompt-text">How will you manage the sensitivity of this material?</div>
-            <div class="guidance-note">Consider: ground rules for discussion; content warnings and opt-out provisions; 'distancing' techniques (e.g., using published testimony rather than asking for personal disclosure); how you will handle unexpected emotional responses; signposting to pastoral support.</div>
-            <textarea id="input-safety" placeholder="e.g., Establish ground rules at the start: 'Challenge ideas, not people.' Offer an alternative written task for any student who finds discussion difficult. Brief the pastoral team in advance. Use published testimony rather than asking students to share personal housing experiences…"></textarea>
-        </div>
-    </div>
 
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">5. Activity Idea</div>
-            <span class="section-time">5 mins</span>
-        </div>
-        <div class="prompt-box">
-            <div class="prompt-text">Draft one core activity or task.</div>
-            <div class="guidance-note">Think about: the type of activity (source enquiry, structured discussion, case study, creative response); what materials learners will work with; what the output or assessment looks like; and how this activity connects to your objectives above.</div>
-            <textarea id="input-activity" placeholder="e.g., Students examine a timeline of residents' complaints alongside the TMO and council responses. In pairs, they identify the points where intervention could have changed the outcome. They then draft a paragraph arguing which failure was most significant and why, using evidence from the timeline…"></textarea>
-        </div>
-    </div>
+        <div class="output-document" id="printable-content">
+            </div>
 
-    <div class="actions">
-        <button class="btn btn-primary" onclick="copyToClipboard()">Copy Plan to Clipboard</button>
-        <button class="btn btn-secondary" onclick="window.print()">Print / Save as PDF</button>
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="editPlan()">&#8592; Back to Edit</button>
+            <button class="btn btn-secondary" onclick="copyPlan()">Copy Text</button>
+            <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+        <div id="status-msg"></div>
     </div>
 
     <footer>
@@ -462,68 +443,12 @@
     </footer>
 </div>
 
-<div id="toast">Plan copied to clipboard</div>
-
 <script>
+    // Helper to get checked boxes
     function getCheckedValues(name) {
         const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
         let values = [];
         checkboxes.forEach((checkbox) => {
             values.push(checkbox.value);
         });
-        return values.length > 0 ? values.join(", ") : "None selected";
-    }
-
-    function copyToClipboard() {
-        const context = document.getElementById('input-context').value || "[No notes]";
-        const objectives = document.getElementById('input-objectives').value || "[No notes]";
-        const safety = document.getElementById('input-safety').value || "[No notes]";
-        const activity = document.getElementById('input-activity').value || "[No notes]";
-        
-        const knowledgeFocus = getCheckedValues('knowledge');
-        const skillsFocus = getCheckedValues('skills');
-
-        let content = "GRENFELL TEACHING: INITIAL DESIGN PLAN\n";
-        content += "====================================\n\n";
-        
-        content += "1. LEARNERS & CONTEXT\n";
-        content += "---------------------\n";
-        content += context + "\n\n";
-
-        content += "2. FOCUS AREAS\n";
-        content += "--------------\n";
-        content += "Knowledge & Understanding: " + knowledgeFocus + "\n";
-        content += "Skills & Disposition: " + skillsFocus + "\n\n";
-
-        content += "3. LEARNING OBJECTIVES\n";
-        content += "----------------------\n";
-        content += objectives + "\n\n";
-
-        content += "4. SAFE SPACE & SAFEGUARDING\n";
-        content += "----------------------------\n";
-        content += safety + "\n\n";
-
-        content += "5. ACTIVITY IDEA\n";
-        content += "----------------\n";
-        content += activity + "\n\n";
-        
-        content += "====================================\n";
-        content += "Generated from the Grenfell CPD Workbook\n";
-
-        navigator.clipboard.writeText(content).then(function() {
-            showToast();
-        }, function(err) {
-            console.error('Could not copy text: ', err);
-            alert("Could not copy automatically. Please select text manually.");
-        });
-    }
-
-    function showToast() {
-        var x = document.getElementById("toast");
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    }
-</script>
-
-</body>
-</html>
+        return values.length
